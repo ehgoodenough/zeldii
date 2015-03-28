@@ -121,9 +121,15 @@ var HeroStore = Reflux.createStore({
         }
         if(WorldStore.isDoor(hero.position.x, hero.position.y)) {
             var door = WorldStore.getDoor(hero.position.x, hero.position.y)
+            hero.position.x = Math.floor(hero.position.x) + 0.5
+            hero.position.y = Math.floor(hero.position.y) + 0.5
             HeroActions.HeroMovesToNewWorld(door.location)
-            hero.position.x = 5.5
-            hero.position.y = 8.5
+        }
+        if(hero.position.x < 0 || hero.position.y < 0
+        || hero.position.x > WorldStore.getWorld().width
+        || hero.position.y > WorldStore.getWorld().height) {
+            HeroActions.HeroMovesToNewWorld("overworld")
+            hero.position = this.old_position_stack.shift()
         }
         if(hero.velocity.x != 0 || hero.velocity.y != 0) {
             var velocity = Math.sqrt(hero.velocity.x * hero.velocity.x + hero.velocity.y * hero.velocity.y)
@@ -131,6 +137,13 @@ var HeroStore = Reflux.createStore({
         } else {
             hero.animation = 0
         }
+        this.retrigger()
+    },
+    old_position_stack: [],
+    onHeroMovesTo: function(position) {
+        var hero = this.data[this.name]
+        this.old_position_stack.push(hero.position)
+        hero.position = position
         this.retrigger()
     }
 })

@@ -18,9 +18,7 @@ var HeroEquipment = React.createClass({
 var HeroEquipmentSlot = React.createClass({
     render: function() {
         return (
-            <div style={this.renderStyles()}>
-                ?
-            </div>
+            <div style={this.renderStyles()}/>
         )
     },
     renderStyles: function() {

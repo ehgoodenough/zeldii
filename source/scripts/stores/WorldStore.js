@@ -1,6 +1,8 @@
 var OverworldData = require("<scripts>/references/OverworldData")
 var SingleRoomData = require("<scripts>/references/SingleRoomData")
+
 var PlaythroughStore = require("<scripts>/stores/PlaythroughStore")
+var HeroActions = require("<scripts>/actions/HeroActions")
 
 var WorldStore = Reflux.createStore({
     data: {
@@ -16,8 +18,16 @@ var WorldStore = Reflux.createStore({
         PlaythroughStore.listen(this.onPlaythroughStore)
         this.onPlaythroughStore(PlaythroughStore.getInitialState())
     },
+    listenables: [
+        HeroActions
+    ],
     onPlaythroughStore: function(playthrough) {
         this.location = playthrough.world.location
+    },
+    onHeroMovesToNewWorld: function(location) {
+        if(location != "overworld") {
+            HeroActions.HeroMovesTo(this.data[location].spawn)
+        }
     },
     createWorld: function(tiledmap, location) {
         var world = {
@@ -29,6 +39,9 @@ var WorldStore = Reflux.createStore({
                 //doors
             }
         }
+        world.spawn = JSON.parse(tiledmap.properties.spawn)
+        world.spawn.x += 0.5
+        world.spawn.y += 0.5
         world.width = tiledmap.width
         world.height = tiledmap.height
         world.rwidth = tiledmap.width / WIDTH

@@ -3,6 +3,7 @@ var HeroActions = Reflux.createActions([
     "HeroMovesSouth",
     "HeroMovesWest",
     "HeroMovesEast",
+    "HeroMovesTo",
     "HeroMovesToNewWorld"
 ])
 

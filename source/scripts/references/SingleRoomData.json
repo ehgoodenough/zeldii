@@ -15,7 +15,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-
+     "spawn":"{\"x\":5, \"y\":8}"
     },
  "renderorder":"right-down",
  "tileheight":64,
