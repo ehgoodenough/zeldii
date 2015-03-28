@@ -101,18 +101,20 @@ var HeroStore = Reflux.createStore({
                 hero.velocity.y = 0
             }
         }
-        if(WorldStore.isWalkable(hero.position.x + hero.velocity.x, hero.position.y)) {
+        if(WorldStore.isWalkableTile(hero.position.x + hero.velocity.x, hero.position.y)) {
             hero.position.x += hero.velocity.x
         } else {
             hero.velocity.x = 0
         }
-        if(WorldStore.isWalkable(hero.position.x, hero.position.y + hero.velocity.y)) {
+        if(WorldStore.isWalkableTile(hero.position.x, hero.position.y + hero.velocity.y)) {
             hero.position.y += hero.velocity.y
         } else {
             hero.velocity.y = 0
         }
-        if(hero.velocity.x != 0
-        || hero.velocity.y != 0) {
+        if(WorldStore.isDoor(hero.position.x, hero.position.y)) {
+            console.log("!")
+        }
+        if(hero.velocity.x != 0 || hero.velocity.y != 0) {
             var velocity = Math.sqrt(hero.velocity.x * hero.velocity.x + hero.velocity.y * hero.velocity.y)
             hero.animation += Math.min(velocity, hero.maxvelocity)
         } else {

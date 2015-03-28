@@ -2,9 +2,9 @@ var World = React.createClass({
     render: function() {
         return (
             <canvas ref="canvas"
+                style={this.renderStyles()}
                 width={this.props.data.width * 64}
-                height={this.props.data.height * 64}
-                style={this.renderStyles()}/>
+                height={this.props.data.height * 64}/>
         )
     },
     renderStyles: function() {
@@ -13,7 +13,7 @@ var World = React.createClass({
             "height": this.props.data.height + "em"
         }
     },
-    componentDidMount: function() {
+    renderCanvas: function() {
         var canvas = this.refs.canvas.getDOMNode().getContext("2d")
         for(var index in this.props.data.tiles) {
             var tile = this.props.data.tiles[index]
@@ -21,6 +21,21 @@ var World = React.createClass({
             var x = tile.position.x * 64
             var y = tile.position.y * 64
             canvas.fillRect(x, y, 64, 64)
+        }
+        for(var index in this.props.data.doors) {
+            var door = this.props.data.doors[index]
+            canvas.fillStyle = "#000000"
+            var x = door.position.x * 64
+            var y = door.position.y * 64
+            canvas.fillRect(x, y, 64, 64)
+        }
+    },
+    componentDidMount: function() {
+        this.renderCanvas()
+    },
+    componentWillReceiveProps: function(props) {
+        if(props.data.tiles != this.props.data.tiles) {
+            this.renderCanvas()
         }
     },
     tiles: {
