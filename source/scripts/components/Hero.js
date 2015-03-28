@@ -16,16 +16,27 @@ var Hero = React.createClass({
         )
     },
     renderStyles: function() {
-        return {
+        var hero = this.props.data
+        var stylings = {
             "width": "1em",
             "height": "1em",
             "position": "absolute",
             "backgroundSize": "4em",
             "backgroundColor": "green",
             "backgroundImage": "url(./assets/images/jink.png)",
-            "top": this.props.data.position.y + "em",
-            "left": this.props.data.position.x + "em"
+            "top": hero.position.y + "em",
+            "left": hero.position.x + "em"
         }
+        if(hero.direction == "north") {
+            stylings["backgroundPosition"] = "2em 0em"
+        } else if(hero.direction == "south") {
+            stylings["backgroundPosition"] = "0em 0em"
+        } else if(hero.direction == "west") {
+            stylings["backgroundPosition"] = "3em 0em"
+        } else if(hero.direction == "east") {
+            stylings["backgroundPosition"] = "1em 0em"
+        }
+        return stylings
     }
 })
 

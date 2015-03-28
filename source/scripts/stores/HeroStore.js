@@ -15,7 +15,8 @@ var HeroStore = Reflux.createStore({
             },
             "acceleration": 1,
             "deacceleration": 0.5,
-            "maxvelocity": 0.1
+            "maxvelocity": 0.085,
+            "direction": "south"
         }
     },
     getData: function() {
@@ -31,7 +32,9 @@ var HeroStore = Reflux.createStore({
         if(hero.velocity.y < -hero.maxvelocity) {
             hero.velocity.y = -hero.maxvelocity
         }
-        hero.direction = "north"
+        if(hero.velocity.x == 0) {
+            hero.direction = "north"
+        }
         this.retrigger()
     },
     onHeroMovesSouth: function(tick) {
@@ -40,7 +43,9 @@ var HeroStore = Reflux.createStore({
         if(hero.velocity.y > hero.maxvelocity) {
             hero.velocity.y = hero.maxvelocity
         }
-        hero.direction = "south"
+        if(hero.velocity.x == 0) {
+            hero.direction = "south"
+        }
         this.retrigger()
     },
     onHeroMovesWest: function(tick) {
@@ -49,7 +54,9 @@ var HeroStore = Reflux.createStore({
         if(hero.velocity.x < -hero.maxvelocity) {
             hero.velocity.x = -hero.maxvelocity
         }
-        hero.direction = "west"
+        if(hero.velocity.y == 0) {
+            hero.direction = "west"
+        }
         this.retrigger()
     },
     onHeroMovesEast: function(tick) {
@@ -58,7 +65,9 @@ var HeroStore = Reflux.createStore({
         if(hero.velocity.x > hero.maxvelocity) {
             hero.velocity.x = hero.maxvelocity
         }
-        hero.direction = "east"
+        if(hero.velocity.y == 0) {
+            hero.direction = "east"
+        }
         this.retrigger()
     },
     onTick: function(tick) {
