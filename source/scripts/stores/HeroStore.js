@@ -19,7 +19,8 @@ var HeroStore = Reflux.createStore({
             "deacceleration": 0.5,
             "maxvelocity": 0.085,
             "direction": "south",
-            "animation": 0
+            "animation": 0,
+            "hearts": 3
         }
     },
     getData: function() {

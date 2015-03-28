@@ -14,7 +14,6 @@ var World = React.createClass({
         }
     },
     renderCanvas: function() {
-        console.log("!!")
         var canvas = this.refs.canvas.getDOMNode().getContext("2d")
         for(var index in this.props.data.tiles) {
             var tile = this.props.data.tiles[index]
@@ -52,7 +51,7 @@ var World = React.createClass({
             7: "#C3C3C3",
             8: "#C3C3C3",
             9: "#FFFFFF",
-            10: "#000000",
+            10: "#111111",
             11: "#EFE4B0",
             12: "#EFE4B0"
         }
