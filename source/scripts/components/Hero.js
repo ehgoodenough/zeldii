@@ -24,16 +24,23 @@ var Hero = React.createClass({
             "left": hero.position.x - (hero.size / 2) + "em",
             "position": "absolute",
             "backgroundSize": "4em",
-            "backgroundColor": "green",
-            "backgroundImage": "url(./assets/images/jink.png)",
-            "backgroundPosition": this.spritesheet[hero.direction]
+            "backgroundImage": "url(./assets/images/jink.svg)",
+            "backgroundPosition": this.renderSpritesheetPosition()
         }
     },
-    spritesheet: {
-        "north": "2em 0em",
-        "south": "0em 0em",
-        "west": "3em 0em",
-        "east": "1em 0em"
+    renderSpritesheetPosition: function() {
+        var x = {
+            "north": "2em",
+            "south": "0em",
+            "west": "3em",
+            "east": "1em"
+        }
+        var y = {
+            true: "0em",
+            false: "-1em"
+        }
+        var hero = this.props.data
+        return x[hero.direction] + " " + y[hero.animation % 1 < 0.5]
     }
 })
 

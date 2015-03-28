@@ -17,7 +17,8 @@ var HeroStore = Reflux.createStore({
             "acceleration": 1,
             "deacceleration": 0.5,
             "maxvelocity": 0.085,
-            "direction": "south"
+            "direction": "south",
+            "animation": 0
         }
     },
     getData: function() {
@@ -33,7 +34,8 @@ var HeroStore = Reflux.createStore({
         if(hero.velocity.y < -hero.maxvelocity) {
             hero.velocity.y = -hero.maxvelocity
         }
-        if(hero.velocity.x == 0) {
+        if(hero.velocity.x < hero.maxvelocity / 2
+        && hero.velocity.x > -hero.maxvelocity / 2) {
             hero.direction = "north"
         }
         this.retrigger()
@@ -44,7 +46,8 @@ var HeroStore = Reflux.createStore({
         if(hero.velocity.y > hero.maxvelocity) {
             hero.velocity.y = hero.maxvelocity
         }
-        if(hero.velocity.x == 0) {
+        if(hero.velocity.x < hero.maxvelocity / 2
+        && hero.velocity.x > -hero.maxvelocity / 2) {
             hero.direction = "south"
         }
         this.retrigger()
@@ -55,7 +58,8 @@ var HeroStore = Reflux.createStore({
         if(hero.velocity.x < -hero.maxvelocity) {
             hero.velocity.x = -hero.maxvelocity
         }
-        if(hero.velocity.y == 0) {
+        if(hero.velocity.y < hero.maxvelocity / 2
+        && hero.velocity.y > -hero.maxvelocity / 2) {
             hero.direction = "west"
         }
         this.retrigger()
@@ -66,7 +70,8 @@ var HeroStore = Reflux.createStore({
         if(hero.velocity.x > hero.maxvelocity) {
             hero.velocity.x = hero.maxvelocity
         }
-        if(hero.velocity.y == 0) {
+        if(hero.velocity.y < hero.maxvelocity / 2
+        && hero.velocity.y > -hero.maxvelocity / 2) {
             hero.direction = "east"
         }
         this.retrigger()
@@ -97,6 +102,11 @@ var HeroStore = Reflux.createStore({
         }
         hero.position.x += hero.velocity.x
         hero.position.y += hero.velocity.y
+        if(hero.velocity.x != 0 || hero.velocity.y != 0) {
+           hero.animation += tick * 2.5
+        } else {
+            hero.animation = 0
+        }
         this.retrigger()
     }
 })

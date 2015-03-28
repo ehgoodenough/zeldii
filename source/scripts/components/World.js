@@ -17,7 +17,6 @@ var World = React.createClass({
         var canvas = this.refs.canvas.getDOMNode().getContext("2d")
         for(var index in this.props.data.tiles) {
             var tile = this.props.data.tiles[index]
-            console.log(tile.value, this.tiles.images[tile.value])
             canvas.fillStyle = this.tiles.images[tile.value]
             var x = tile.position.x * 64
             var y = tile.position.y * 64
