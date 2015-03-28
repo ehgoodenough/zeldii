@@ -1,6 +1,14 @@
 var HeroStore = require("<scripts>/stores/HeroStore")
 
 var Camera = React.createClass({
+    propTypes: {
+        target: React.PropTypes.shape({
+            position: React.PropTypes.shape({
+                x: React.PropTypes.number.isRequired,
+                y: React.PropTypes.number.isRequired
+            }).isRequired
+        }).isRequired
+    },
     render: function() {
         return (
             <div style={this.renderStyles()}>
