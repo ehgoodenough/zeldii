@@ -6,6 +6,9 @@ var HeroActions = require("<scripts>/actions/HeroActions")
 var Hero = React.createClass({
     componentDidMount: function() {
         InputBindingStore.addAction("w", HeroActions.HeroMovesNorth)
+        InputBindingStore.addAction("s", HeroActions.HeroMovesSouth)
+        InputBindingStore.addAction("a", HeroActions.HeroMovesWest)
+        InputBindingStore.addAction("d", HeroActions.HeroMovesEast)
     },
     render: function() {
         return (
