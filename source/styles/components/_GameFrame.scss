@@ -9,102 +9,33 @@
     overflow: hidden;
 }
 
-@media(min-aspect-ratio: 16/9)
+@mixin game-frame-aspect-ratio($awidth, $aheight, $twidth, $theight)
 {
-    #game-frame._16x9
+    @media(min-aspect-ratio: #{$awidth + "/" + $aheight})
     {
-        width: (16/9)*100vh;
-        height: 100vh;
-        font-size: 11.12vh;
+        #game-frame._#{$awidth + "x" + $aheight}
+        {
+            height: 100vh;
+            width: ($awidth/$aheight)*100vh;
+            font-size: (($awidth/$aheight)*100vh)/$twidth;
+        }
+    }
+
+    @media(max-aspect-ratio: #{$awidth + "/" + $aheight})
+    {
+        #game-frame._#{$awidth + "x" + $aheight}
+        {
+            width: 100vw;
+            height: ($aheight/$awidth)*100vw;
+            font-size: (($aheight/$awidth)*100vw)/$theight;
+        }
     }
 }
 
-@media(max-aspect-ratio: 16/9)
-{
-    #game-frame._16x9
-    {
-        width: 100vw;
-        height: (9/16)*100vw;
-        font-size: 6.25vw;
-    }
-}
+@include game-frame-aspect-ratio(16, 9, 16, 9);
+@include game-frame-aspect-ratio(2, 3, 10, 15);
+@include game-frame-aspect-ratio(3, 2, 15, 10);
+@include game-frame-aspect-ratio(3, 4, 15, 20);
+@include game-frame-aspect-ratio(4, 3, 20, 15);
 
-@media(min-aspect-ratio: 4/3)
-{
-    #game-frame._4x3
-    {
-        width: (4/3)*100vh;
-        height: 100vh;
-        font-size: ((4/3)*100vh)/20;
-    }
-}
-
-@media(max-aspect-ratio: 4/3)
-{
-    #game-frame._4x3
-    {
-        width: 100vw;
-        height: (3/4)*100vw;
-        font-size: ((3/4)*100vw)/15;
-    }
-}
-
-@media(min-aspect-ratio: 2/3)
-{
-    #game-frame._2x3
-    {
-        width: (2/3)*100vh;
-        height: 100vh;
-        font-size: ((2/3)*100vh)/10;
-    }
-}
-
-@media(max-aspect-ratio: 2/3)
-{
-    #game-frame._2x3
-    {
-        width: 100vw;
-        height: (3/2)*100vw;
-        font-size: ((3/2)*100vw)/15;
-    }
-}
-
-@media(min-aspect-ratio: 3/4)
-{
-    #game-frame._3x4
-    {
-        width: (3/4)*100vh;
-        height: 100vh;
-        font-size: ((3/4)*100vh)/15;
-    }
-}
-
-@media(max-aspect-ratio: 3/4)
-{
-    #game-frame._3x4
-    {
-        width: 100vw;
-        height: (4/3)*100vw;
-        font-size: ((4/3)*100vw)/20;
-    }
-}
-
-@media(min-aspect-ratio: 11/9)
-{
-    #game-frame._11x9
-    {
-        width: (11/9)*100vh;
-        height: 100vh;
-        font-size: ((11/9)*100vh)/11;
-    }
-}
-
-@media(max-aspect-ratio: 11/9)
-{
-    #game-frame._11x9
-    {
-        width: 100vw;
-        height: (9/11)*100vw;
-        font-size: ((9/11)*100vw)/9;
-    }
-}
+@include game-frame-aspect-ratio(11, 13, 11, 13);

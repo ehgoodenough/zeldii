@@ -1,5 +1,3 @@
-var HeroStore = require("<scripts>/stores/HeroStore")
-
 var Camera = React.createClass({
     propTypes: {
         target: React.PropTypes.shape({

@@ -100,21 +100,21 @@ gulp.task("watch:scripts", function() {
 
 gulp.task("watch:styles", function() {
     gulp.start("build:styles")
-    gulp_watch("./source/**/*.scss", function() {
+    gulp.watch("./source/**/*.scss", function() {
         gulp.start("build:styles")
     })
 })
 
 gulp.task("watch:markup", function() {
     gulp.start("build:markup")
-    gulp_watch("./source/**/*.html", function() {
+    gulp.watch("./source/**/*.html", function() {
         gulp.start("build:markup")
     })
 })
 
 gulp.task("watch:assets", function() {
     gulp.start("build:assets")
-    gulp_watch("./source/assets/**/*", function() {
+    gulp.watch("./source/assets/**/*", function() {
         gulp.start("build:assets")
     })
 })
