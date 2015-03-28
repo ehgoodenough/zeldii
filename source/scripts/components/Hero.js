@@ -17,26 +17,23 @@ var Hero = React.createClass({
     },
     renderStyles: function() {
         var hero = this.props.data
-        var stylings = {
-            "width": "1em",
-            "height": "1em",
+        return {
+            "width": hero.size + "em",
+            "height": hero.size + "em",
+            "top": hero.position.y - (hero.size / 2) + "em",
+            "left": hero.position.x - (hero.size / 2) + "em",
             "position": "absolute",
             "backgroundSize": "4em",
             "backgroundColor": "green",
             "backgroundImage": "url(./assets/images/jink.png)",
-            "top": hero.position.y + "em",
-            "left": hero.position.x + "em"
+            "backgroundPosition": this.spritesheet[hero.direction]
         }
-        if(hero.direction == "north") {
-            stylings["backgroundPosition"] = "2em 0em"
-        } else if(hero.direction == "south") {
-            stylings["backgroundPosition"] = "0em 0em"
-        } else if(hero.direction == "west") {
-            stylings["backgroundPosition"] = "3em 0em"
-        } else if(hero.direction == "east") {
-            stylings["backgroundPosition"] = "1em 0em"
-        }
-        return stylings
+    },
+    spritesheet: {
+        "north": "2em 0em",
+        "south": "0em 0em",
+        "west": "3em 0em",
+        "east": "1em 0em"
     }
 })
 

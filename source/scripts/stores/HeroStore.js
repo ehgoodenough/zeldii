@@ -6,13 +6,14 @@ var HeroStore = Reflux.createStore({
     data: {
         "jink": {
             "position": {
-                "x": 10,
-                "y": 8
+                "x": 10.5,
+                "y": 8.5
             },
             "velocity": {
                 "x": 0,
                 "y": 0,
             },
+            "size": 1,
             "acceleration": 1,
             "deacceleration": 0.5,
             "maxvelocity": 0.085,

@@ -1,4 +1,5 @@
 var GameFrame = require("<scripts>/components/GameFrame")
+var Camera = require("<scripts>/components/Camera")
 var HeroStore = require("<scripts>/stores/HeroStore")
 var Hero = require("<scripts>/components/Hero")
 
@@ -9,16 +10,18 @@ var Game = React.createClass({
     render: function() {
         return (
             <GameFrame aspect-ratio="11x9">
-                {this.renderEntities(Hero, "heroes")}
+                <Camera target={this.state["heroes"]["jink"]}>
+                    {this.renderEntities(Hero, this.state["heroes"])}
+                </Camera>
             </GameFrame>
         )
     },
     renderEntities: function(Class, entities) {
-        var renderings = new Array()
-        for(var id in this.state[entities]) {
-            var data = this.state[entities][id]
+        var renderings = []
+        for(var index in entities) {
+            var data = entities[index]
             renderings.push(
-                <Class key={id} data={data}/>
+                <Class key={index} data={data}/>
             )
         }
         return renderings
