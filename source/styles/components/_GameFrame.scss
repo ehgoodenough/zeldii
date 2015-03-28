@@ -88,3 +88,23 @@
         font-size: ((4/3)*100vw)/20;
     }
 }
+
+@media(min-aspect-ratio: 11/9)
+{
+    #game-frame._11x9
+    {
+        width: (11/9)*100vh;
+        height: 100vh;
+        font-size: ((11/9)*100vh)/11;
+    }
+}
+
+@media(max-aspect-ratio: 11/9)
+{
+    #game-frame._11x9
+    {
+        width: 100vw;
+        height: (9/11)*100vw;
+        font-size: ((9/11)*100vw)/9;
+    }
+}
