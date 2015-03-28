@@ -27,6 +27,22 @@ var WorldStore = Reflux.createStore({
                 }
             }
         }
+    },
+    isWalkable: function(x, y) {
+        var tiles = new Array()
+        tiles.push(this.getTile(x - 0.25, y - 0.45))
+        tiles.push(this.getTile(x - 0.25, y + 0.45))
+        tiles.push(this.getTile(x + 0.25, y - 0.45))
+        tiles.push(this.getTile(x + 0.25, y + 0.45))
+        for(var index in tiles) {
+            if([1, 3, 4, 7, 9].indexOf(tiles[index].value) != -1) {
+                return false
+            }
+        }
+        return true
+    },
+    getTile: function(x, y) {
+        return this.data.tiles[Math.floor(x) + "x" + Math.floor(y)]
     }
 })
 

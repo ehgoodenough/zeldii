@@ -1,5 +1,6 @@
 var HeroActions = require("<scripts>/actions/HeroActions")
 var LoopActions = require("<scripts>/actions/LoopActions")
+var WorldStore = require("<scripts>/stores/WorldStore")
 
 var HeroStore = Reflux.createStore({
     name: "jink",
@@ -100,14 +101,20 @@ var HeroStore = Reflux.createStore({
                 hero.velocity.y = 0
             }
         }
-        hero.position.x += hero.velocity.x
-        hero.position.y += hero.velocity.y
-        if(hero.velocity.x != 0 || hero.velocity.y != 0) {
-            var vx = hero.velocity.x
-            var vy = hero.velocity.y
-            var maxv = hero.maxvelocity
-            var v = Math.sqrt(vx * vx + vy * vy)
-            hero.animation += Math.min(v, maxv)
+        if(WorldStore.isWalkable(hero.position.x + hero.velocity.x, hero.position.y)) {
+            hero.position.x += hero.velocity.x
+        } else {
+            hero.velocity.x = 0
+        }
+        if(WorldStore.isWalkable(hero.position.x, hero.position.y + hero.velocity.y)) {
+            hero.position.y += hero.velocity.y
+        } else {
+            hero.velocity.y = 0
+        }
+        if(hero.velocity.x != 0
+        || hero.velocity.y != 0) {
+            var velocity = Math.sqrt(hero.velocity.x * hero.velocity.x + hero.velocity.y * hero.velocity.y)
+            hero.animation += Math.min(velocity, hero.maxvelocity)
         } else {
             hero.animation = 0
         }
