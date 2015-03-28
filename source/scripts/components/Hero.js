@@ -1,4 +1,12 @@
+var LoopStore = require("<scripts>/stores/LoopStore")
+var KeyboardInputStore = require("<scripts>/stores/KeyboardInputStore")
+var InputBindingStore = require("<scripts>/stores/InputBindingStore")
+var HeroActions = require("<scripts>/actions/HeroActions")
+
 var Hero = React.createClass({
+    componentDidMount: function() {
+        InputBindingStore.addAction("w", HeroActions.HeroMovesNorth)
+    },
     render: function() {
         return (
             <div style={this.renderStyles()}/>

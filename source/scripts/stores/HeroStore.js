@@ -1,3 +1,5 @@
+var HeroActions = require("<scripts>/actions/HeroActions")
+
 var HeroStore = Reflux.createStore({
     data: {
         "jink": {
@@ -9,6 +11,12 @@ var HeroStore = Reflux.createStore({
     },
     getData: function() {
         return this.data
+    },
+    listenables: [
+        HeroActions
+    ],
+    onHeroMovesNorth: function() {
+        console.log("!")
     }
 })
 

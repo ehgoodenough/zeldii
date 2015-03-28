@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "react": "~0.12.2",
-    "reflux": "~0.2.6"
+    "reflux": "~0.2.6",
+    "raf": "~2.0.4"
   },
   "devDependencies": {
     "aliasify": "~1.7.2",
