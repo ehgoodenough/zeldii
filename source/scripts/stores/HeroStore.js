@@ -6,8 +6,8 @@ var HeroStore = Reflux.createStore({
     data: {
         "jink": {
             "position": {
-                "x": 10.5,
-                "y": 8.5
+                "x": 82.5,
+                "y": 69.5
             },
             "velocity": {
                 "x": 0,
@@ -103,7 +103,11 @@ var HeroStore = Reflux.createStore({
         hero.position.x += hero.velocity.x
         hero.position.y += hero.velocity.y
         if(hero.velocity.x != 0 || hero.velocity.y != 0) {
-           hero.animation += tick * 2.5
+            var vx = hero.velocity.x
+            var vy = hero.velocity.y
+            var maxv = hero.maxvelocity
+            var v = Math.sqrt(vx * vx + vy * vy)
+            hero.animation += Math.min(v, maxv)
         } else {
             hero.animation = 0
         }
