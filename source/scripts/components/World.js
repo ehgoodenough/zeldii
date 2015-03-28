@@ -14,6 +14,7 @@ var World = React.createClass({
         }
     },
     renderCanvas: function() {
+        console.log("!!")
         var canvas = this.refs.canvas.getDOMNode().getContext("2d")
         for(var index in this.props.data.tiles) {
             var tile = this.props.data.tiles[index]
@@ -33,10 +34,11 @@ var World = React.createClass({
     componentDidMount: function() {
         this.renderCanvas()
     },
-    componentWillReceiveProps: function(props) {
-        if(props.data.tiles != this.props.data.tiles) {
-            this.renderCanvas()
-        }
+    shouldComponentUpdate: function(props) {
+        return props.data.tiles != this.props.data.tiles
+    },
+    componentDidUpdate: function() {
+        this.renderCanvas()
     },
     tiles: {
         "images": {

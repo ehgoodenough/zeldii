@@ -1,29 +1,44 @@
 var OverworldData = require("<scripts>/references/OverworldData")
+var SingleRoomData = require("<scripts>/references/SingleRoomData")
+var PlaythroughStore = require("<scripts>/stores/PlaythroughStore")
 
 var WorldStore = Reflux.createStore({
     data: {
-        width: WIDTH || 11,
-        height: HEIGHT || 9,
-        tiles: {
-            //tiles
-        },
-        doors: {
-            //doors
-        }
+        //worlds
     },
     getData: function() {
         return this.data
     },
     init: function() {
-        this.data.width = OverworldData.width
-        this.data.height = OverworldData.height
-        this.data.rwidth = OverworldData.width / WIDTH
-        this.data.rheight = OverworldData.height / HEIGHT
-        var tiles = OverworldData.layers[0].data
-        for(var x = 0; x < OverworldData.width; x++) {
-            for(var y = 0; y < OverworldData.height; y++) {
-                var value = tiles[y * OverworldData.width + x]
-                this.data.tiles[x + "x" + y] = {
+        this.data["overworld"] = this.createWorld(OverworldData, "overworld")
+        this.data["takethis"] = this.createWorld(SingleRoomData, "takethis")
+        
+        PlaythroughStore.listen(this.onPlaythroughStore)
+        this.onPlaythroughStore(PlaythroughStore.getInitialState())
+    },
+    onPlaythroughStore: function(playthrough) {
+        this.location = playthrough.world.location
+    },
+    createWorld: function(tiledmap, location) {
+        var world = {
+            "location": location,
+            "tiles": {
+                //tiles
+            },
+            "doors": {
+                //doors
+            }
+        }
+        world.width = tiledmap.width
+        world.height = tiledmap.height
+        world.rwidth = tiledmap.width / WIDTH
+        world.rheight = tiledmap.height / HEIGHT
+        var layer0 = tiledmap.layers[0]
+        var layer1 = tiledmap.layers[1]
+        for(var x = 0; x < tiledmap.width; x++) {
+            for(var y = 0; y < tiledmap.height; y++) {
+                var value = layer0.data[y * tiledmap.width + x]
+                world.tiles[x + "x" + y] = {
                     "value": value - 1,
                     "position": {
                         "x": x,
@@ -32,26 +47,31 @@ var WorldStore = Reflux.createStore({
                 }
             }
         }
-        var doors = OverworldData.layers[1].objects
-        for(var index in doors) {
-            var door = doors[index]
-            var x = Math.floor(door.x / 64)
-            var y = Math.floor((door.y - 1) / 64)
-            var location = door.properties.location || "nowhere"
-            this.data.doors[x + "x" + y] = {
-                "location": location,
-                "position": {
-                    "x": x,
-                    "y": y
+        if(layer1) {
+            for(var index in layer1.objects) {
+                var door = layer1.objects[index]
+                var x = Math.floor(door.x / 64)
+                var y = Math.floor((door.y - 1) / 64)
+                var location = door.properties.location || "nowhere"
+                world.doors[x + "x" + y] = {
+                    "location": location,
+                    "position": {
+                        "x": x,
+                        "y": y
+                    }
                 }
             }
         }
+        return world
+    },
+    getWorld: function() {
+        return this.data[this.location]
     },
     getTile: function(x, y) {
-        return this.data.tiles[Math.floor(x) + "x" + Math.floor(y)]
+        return this.getWorld().tiles[Math.floor(x) + "x" + Math.floor(y)]
     },
     getDoor: function(x, y) {
-        return this.data.doors[Math.floor(x) + "x" + Math.floor(y)]
+        return this.getWorld().doors[Math.floor(x) + "x" + Math.floor(y)]
     },
     isWalkableTile: function(x, y) {
         var tiles = new Array()

@@ -1,9 +1,9 @@
 var HeroActions = require("<scripts>/actions/HeroActions")
 var LoopActions = require("<scripts>/actions/LoopActions")
 var WorldStore = require("<scripts>/stores/WorldStore")
+var PlaythroughStore = require("<scripts>/stores/PlaythroughStore")
 
 var HeroStore = Reflux.createStore({
-    name: "jink",
     data: {
         "jink": {
             "position": {
@@ -24,6 +24,13 @@ var HeroStore = Reflux.createStore({
     },
     getData: function() {
         return this.data
+    },
+    init: function() {
+        PlaythroughStore.listen(this.onPlaythroughStore)
+        this.onPlaythroughStore(PlaythroughStore.getInitialState())
+    },
+    onPlaythroughStore: function(playthrough) {
+        this.name = playthrough.hero.name
     },
     listenables: [
         HeroActions,
@@ -112,7 +119,10 @@ var HeroStore = Reflux.createStore({
             hero.velocity.y = 0
         }
         if(WorldStore.isDoor(hero.position.x, hero.position.y)) {
-            console.log("!")
+            var door = WorldStore.getDoor(hero.position.x, hero.position.y)
+            HeroActions.HeroMovesToNewWorld(door.location)
+            hero.position.x = 5.5
+            hero.position.y = 8.5
         }
         if(hero.velocity.x != 0 || hero.velocity.y != 0) {
             var velocity = Math.sqrt(hero.velocity.x * hero.velocity.x + hero.velocity.y * hero.velocity.y)
