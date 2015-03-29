@@ -87,6 +87,10 @@ var HeroStore = Reflux.createStore({
     },
     onTick: function(tick) {
         var hero = this.data[this.name]
+        var previous_position = {
+            "x": hero.position.x,
+            "y": hero.position.y
+        }
         if(hero.velocity.x < 0) {
             hero.velocity.x += hero.deacceleration * tick
             if(hero.velocity.x > 0) {
@@ -119,17 +123,21 @@ var HeroStore = Reflux.createStore({
         } else {
             hero.velocity.y = 0
         }
-        if(WorldStore.isDoor(hero.position.x, hero.position.y)) {
-            var door = WorldStore.getDoor(hero.position.x, hero.position.y)
-            hero.position.x = Math.floor(hero.position.x) + 0.5
-            hero.position.y = Math.floor(hero.position.y) + 0.5
-            HeroActions.HeroMovesToNewWorld(door.location)
-        }
-        if(hero.position.x < 0 || hero.position.y < 0
-        || hero.position.x > WorldStore.getWorld().width
-        || hero.position.y > WorldStore.getWorld().height) {
-            HeroActions.HeroMovesToNewWorld("overworld")
-            hero.position = this.old_position_stack.shift()
+        if(Math.floor(hero.position.x) != Math.floor(previous_position.x)
+        || Math.floor(hero.position.y) != Math.floor(previous_position.y)) {
+            if(WorldStore.isDoor(hero.position.x, hero.position.y)) {
+                var door = WorldStore.getDoor(hero.position.x, hero.position.y)
+                hero.position.x = Math.floor(hero.position.x) + 0.5
+                hero.position.y = Math.floor(hero.position.y) + 0.5
+                HeroActions.HeroMovesToNewWorld(door.location)
+            }
+            if(hero.position.x < 0 || hero.position.y < 0
+            || hero.position.x > WorldStore.getWorld().width
+            || hero.position.y > WorldStore.getWorld().height) {
+                HeroActions.HeroMovesToNewWorld("overworld")
+                hero.position = this.old_position_stack.shift()
+                hero.position.y += 0.5
+            }
         }
         if(hero.velocity.x != 0 || hero.velocity.y != 0) {
             var velocity = Math.sqrt(hero.velocity.x * hero.velocity.x + hero.velocity.y * hero.velocity.y)
