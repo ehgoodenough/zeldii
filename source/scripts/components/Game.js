@@ -22,22 +22,32 @@ var Game = React.createClass({
     ],
     render: function() {
         var playthrough = this.state.playthrough
+        var hero = this.state.heroes[playthrough.hero.name]
+        var world = this.state.worlds[playthrough.world.location]
         return (
             <GameFrame aspect-ratio="1x1">
                 <Screen width={11} height={2} ypadding={0.25}>
-                    <WorldMap hero={this.state.heroes[playthrough.hero.name]}/>
-                    <HeroInventory hero={this.state.heroes[playthrough.hero.name]}/>
-                    <HeroEquipment hero={this.state.heroes[playthrough.hero.name]}/>
-                    <HeroHearts hero={this.state.heroes[playthrough.hero.name]}/>
+                    <WorldMap hero={hero}/>
+                    <HeroInventory hero={hero}/>
+                    <HeroEquipment hero={hero}/>
+                    <HeroHearts hero={hero}/>
                 </Screen>
                 <Screen y={2} width={11} height={9}>
-                    <Camera target={this.state.heroes[playthrough.hero.name]}>
-                        <World data={this.state.worlds[playthrough.world.location]}/>
-                        <Hero data={this.state.heroes[playthrough.hero.name]}/>
+                    <Camera target={hero}>
+                        <World world={world}/>
+                        <Hero hero={hero}/>
                     </Camera>
                 </Screen>
+                <ReactGoogleAnalytics.Initializer/>
             </GameFrame>
         )
+    },
+    componentDidMount: function() {
+        if(document.URL.indexOf("ehgoodenough.github.io/zeldii") > -1) {
+            ReactGoogleAnalytics("create", "UA-51900554-2", "auto")
+            ReactGoogleAnalytics("send", "pageview")
+            console.log("Google Analytics!")
+        }
     }
 })
 

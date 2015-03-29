@@ -16,7 +16,7 @@ var Hero = React.createClass({
         )
     },
     renderStyles: function() {
-        var hero = this.props.data
+        var hero = this.props.hero
         return {
             "width": hero.size + "em",
             "height": hero.size + "em",
@@ -39,7 +39,7 @@ var Hero = React.createClass({
             true: "0em",
             false: "-1em"
         }
-        var hero = this.props.data
+        var hero = this.props.hero
         return x[hero.direction] + " " + y[hero.animation % 1 < 0.5]
     }
 })

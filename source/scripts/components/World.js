@@ -3,27 +3,27 @@ var World = React.createClass({
         return (
             <canvas ref="canvas"
                 style={this.renderStyles()}
-                width={this.props.data.width * 64}
-                height={this.props.data.height * 64}/>
+                width={this.props.world.width * 64}
+                height={this.props.world.height * 64}/>
         )
     },
     renderStyles: function() {
         return {
-            "width": this.props.data.width + "em",
-            "height": this.props.data.height + "em"
+            "width": this.props.world.width + "em",
+            "height": this.props.world.height + "em"
         }
     },
     renderCanvas: function() {
         var canvas = this.refs.canvas.getDOMNode().getContext("2d")
-        for(var index in this.props.data.tiles) {
-            var tile = this.props.data.tiles[index]
+        for(var index in this.props.world.tiles) {
+            var tile = this.props.world.tiles[index]
             canvas.fillStyle = this.tiles.images[tile.value]
             var x = tile.position.x * 64
             var y = tile.position.y * 64
             canvas.fillRect(x, y, 64, 64)
         }
-        for(var index in this.props.data.doors) {
-            var door = this.props.data.doors[index]
+        for(var index in this.props.world.doors) {
+            var door = this.props.world.doors[index]
             canvas.fillStyle = "#000000"
             var x = door.position.x * 64
             var y = door.position.y * 64
@@ -34,7 +34,7 @@ var World = React.createClass({
         this.renderCanvas()
     },
     shouldComponentUpdate: function(props) {
-        return props.data.tiles != this.props.data.tiles
+        return props.world.tiles != this.props.world.tiles
     },
     componentDidUpdate: function() {
         this.renderCanvas()
